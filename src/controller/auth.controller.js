@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
   
   if(!user){
     return res.status(401).json({
-      message:"The username or password is incorrect."
+      message:"The username  is incorrect."
     })
   }
   
@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
 
   if(!isPasswordCorrect){
     return res.status(401).json({
-      message:"The username or password is incorrect."
+      message:"The  password is incorrect."
     })
   }
 
