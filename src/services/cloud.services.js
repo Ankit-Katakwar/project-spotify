@@ -8,8 +8,8 @@ const uploadFile = async (buffer) => {
   const result = await client.files.upload({
     file: buffer.toString("base64"),
     fileName: "music_" + Date.now(),
-    folder:"spotify/musics"
+    folder: "spotify/musics",
   });
   return result;
 };
-module.exports = uploadFile
+module.exports = uploadFile;

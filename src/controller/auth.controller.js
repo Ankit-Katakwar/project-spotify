@@ -23,7 +23,10 @@ const registerUser = async (req, res) => {
     role,
   });
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+  const token = jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET,
+  );
 
   res.cookie("token", token);
 
@@ -34,34 +37,40 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { username, email, password } = req.body;
-  
+
   const user = await userModel.findOne({
     $or: [{ username }, { email }],
   });
-  
-  if(!user){
+
+  if (!user) {
     return res.status(401).json({
-      message:"The username  is incorrect."
-    })
+      message: "The username or password is incorrect.",
+    });
   }
-  
+
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-  if(!isPasswordCorrect){
+  if (!isPasswordCorrect) {
     return res.status(401).json({
-      message:"The  password is incorrect."
-    })
+      message: "The username or password is incorrect.",
+    });
   }
 
-  const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
+  const token = jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET,
+  );
 
-  res.cookie("tokken",token)
+  res.cookie("token", token);
 
   res.status(200).json({
-    message:"The user has logged in successfully."
-  })
-
-
+    message: "The user has logged in successfully.",
+  });
 };
-
-module.exports = { registerUser , loginUser};
+const logoutUser = (req,res)=>{
+  res.clearCookie("token")
+  res.status(200).json({
+    message:"The user has been logged out."
+  })
+}
+module.exports = { registerUser, loginUser ,logoutUser };
