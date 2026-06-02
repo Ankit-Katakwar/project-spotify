@@ -66,7 +66,7 @@ const albumSongs = async (req,res)=>{
   const id = req.params.id
   const album = await albumModel.findById(id).populate("music").populate("artist", "username email")
   res.status(200).json({
-    message:"The album songs have been fetched.",
+    message:"The album songs have been fetched successfully.",
     album:album
   })
 }
