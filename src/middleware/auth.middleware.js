@@ -22,7 +22,7 @@ const authArtist = (req, res, next) => {
     next()
   }catch(err){
     res.status(401).json({
-        message:"Unauthorised request",
+        message:"Unauthorised request.",
         err:err
     })
   }
